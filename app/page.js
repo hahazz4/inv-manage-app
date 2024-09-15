@@ -120,12 +120,6 @@ export default function Home() {
                     ))}
                 </Stack>
             </Box>
-            <Typography variant="h5" color="white">
-                If you would like to see the app work, watch the demo on my portfolio. Otherwise, email me.
-            </Typography>
-            <Typography variant="h5" color="white">
-                Working on user authentication, and ai generated recipes based off of what was in the pantry.
-            </Typography>
         </Box>
     );
 }
