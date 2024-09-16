@@ -6,11 +6,12 @@ import CheckIcon from '@mui/icons-material/Check';
 import { Add } from "@mui/icons-material";
 import { useDbActions } from "./dbActions/route";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
+import Link from "next/link";
 
 const placeholders = [
     "Enter the ingredient here",
     "How many apples are there?",
-    "A square sponge that lived in a pineapple under the sea?",
+    "A square sponge that lives in a pineapple under the sea?",
 ];
  
 const handleChange = () => {
@@ -18,7 +19,7 @@ const handleChange = () => {
 };
 
 const onSubmit = () => {
-
+    
 };
 
 export default function Home() {
@@ -31,21 +32,13 @@ export default function Home() {
         setShowAlert,
         handleOpen,
         handleClose,
+        searchInv,
         addItem,
         removeItem
     } = useDbActions();
 
     return (
         <div className="justify-center items-center h-[100vh] w-[100vw] bg-black">
-        {/* <Box 
-            id="bg"
-            width="100vw" 
-            height="100vh" 
-            alignItems="center" 
-            justifyContent="center" 
-            display="flex"
-            flexDirection="column"
-            gap={2}> */}
             <Modal
                 open={open}
                 onClose={handleClose}>
@@ -103,78 +96,82 @@ export default function Home() {
                     </Typography>
                 </div>
 
-                <h2 className="text-center justify-center items-center text-3xl mt-10 mb-5 dark:text-white text-black">
+                <h2 className="text-center justify-center items-center text-xl mt-10 mb-5 dark:text-white text-black">
                     Search for Ingredients from the Pantry
                 </h2>
 
                 <PlaceholdersAndVanishInput
                 placeholders={placeholders}
-                onChange={handleChange}
-                onSubmit={onSubmit}/>
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+                onSubmit={() => {
+                    searchInv(itemName)
+                    setItemName('');
+                }}/>
 
-                <h5 className="text-center justify-center items-center text-2xl mt-5 mb-5 dark:text-white text-black">
-                    Ingredient missing? Add it below!
-                </h5>
-            </div>
-
-            <div className="text-center justify-center items-center">
-                <Button variant="contained" onClick={handleOpen}>
-                    Add Product
-                </Button>
-                {showAlert && (
+                <div className="flex gap-5 text-center justify-center items-center">
+                    <h5 className="text-center justify-center items-center text-xl mt-5 mb-5 dark:text-white text-black">
+                        An ingredient missing?
+                    </h5>
+                    <Button variant="contained" onClick={handleOpen}>
+                        Add Product
+                   </Button>
+                   {showAlert && (
                     <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" onClose={() => setShowAlert(false)}>
                         {itemName} was successfully added!
                     </Alert>
-                )}
+                    )}
+                </div>
+            </div>
+
+            <div className="flex gap-5 text-center justify-center items-center">
+                <h5 className="text-center justify-center items-center text-xl mt-5 mb-5 dark:text-white text-black">
+                    Want to generate a recipe from the ingredients in your pantry?
+                </h5>
+                <Link href="/">
+                    <Button variant="contained" onClick={handleOpen}>
+                        Generate Recipe
+                    </Button>
+                </Link>
             </div>
 
             <div className="justify-center items-center">
-                {/* <Box
-                    width={800}
-                    height={100}
-                    bgcolor="black"
-                    color="white"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"> */}
                 <div className="text-center justify-center items-center py-5">
                     <Typography variant="h2" color="white">
                         Inventory Items
                     </Typography>
                 </div>
-                {/* </Box> */}
                 
-                <div className="mx-[20vw] justify-center items-center">
-                <Stack width="60vw" height="33vh" spacing={2} overflow="auto" id="listBg" sx={{marginBottom: 10, justifyContent: "center", alignItems: "center"}}>
-                    {inv.map(({ name, quantity }) => (
-                        <Box 
-                            key={name}
-                            width="100%"
-                            minHeight={150}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            padding={5}>
-                            <Typography variant="h3" justifyContent="center" alignItems="center" display="flex">
-                                {name.charAt(0).toUpperCase() + name.slice(1)}
-                            </Typography>
-                            <Typography variant="h3" justifyContent="center" alignItems="center" display="flex">
-                                {quantity}
-                            </Typography>
-                            <Stack direction="row" spacing={3}>
-                                <Button variant="contained" startIcon={<Add />} onClick={() => addItem(name)}>
-                                    Add
-                                </Button>
-                                <Button variant="contained" startIcon={<DeleteIcon />} onClick={() => removeItem(name)}>
-                                    Remove
-                                </Button>
-                            </Stack>
-                        </Box>
-                    ))}
-                </Stack>
+                <div className="mx-[20vw] justify-center items-center mb-20">
+                    <Stack width="60vw" height="30vh" spacing={2} overflow="auto" id="listBg" sx={{marginBottom: 10, justifyContent: "center", alignItems: "center"}}>
+                        {inv.map(({ name, quantity }) => (
+                            <Box 
+                                key={name}
+                                width="100%"
+                                minHeight={150}
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                padding={8}>
+                                <Typography variant="h3" justifyContent="center" alignItems="center" display="flex">
+                                    {name.charAt(0).toUpperCase() + name.slice(1)}
+                                </Typography>
+                                <Typography variant="h3" justifyContent="center" alignItems="center" display="flex">
+                                    {quantity}
+                                </Typography>
+                                <Stack direction="row" spacing={3}>
+                                    <Button variant="contained" startIcon={<Add />} onClick={() => addItem(name)}>
+                                        Add
+                                    </Button>
+                                    <Button variant="contained" startIcon={<DeleteIcon />} onClick={() => removeItem(name)}>
+                                        Remove
+                                    </Button>
+                                </Stack>
+                            </Box>
+                        ))}
+                    </Stack>
                 </div>
             </div>
-        {/* </Box> */}
         </div>
     );
 }
