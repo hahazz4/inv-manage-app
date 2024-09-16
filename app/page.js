@@ -5,6 +5,21 @@ import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import { Add } from "@mui/icons-material";
 import { useDbActions } from "./dbActions/route";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
+
+const placeholders = [
+    "Enter the ingredient here",
+    "How many apples are there?",
+    "A square sponge that lived in a pineapple under the sea?",
+];
+ 
+const handleChange = () => {
+
+};
+
+const onSubmit = () => {
+
+};
 
 export default function Home() {
     const {
@@ -21,7 +36,8 @@ export default function Home() {
     } = useDbActions();
 
     return (
-        <Box 
+        <div className="justify-center items-center h-[100vh] w-[100vw] bg-black">
+        {/* <Box 
             id="bg"
             width="100vw" 
             height="100vh" 
@@ -29,7 +45,7 @@ export default function Home() {
             justifyContent="center" 
             display="flex"
             flexDirection="column"
-            gap={2}>
+            gap={2}> */}
             <Modal
                 open={open}
                 onClose={handleClose}>
@@ -49,6 +65,15 @@ export default function Home() {
                     sx={{
                         transform: "translate(-50%, -50%)"
                     }}>
+                    {/* <Box
+                        width={800}
+                        height={100}
+                        bgcolor="black"
+                        color="white"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"> */}
+                    {/* </Box> */}
                     <Typography variant="h5">Add Item</Typography>
                     <Stack width="100%" direction="row" spacing={2}>
                         <TextField
@@ -70,29 +95,57 @@ export default function Home() {
                     </Stack>
                 </Box>
             </Modal>
-            <Button variant="contained" onClick={handleOpen}>
-                Add Product
-            </Button>
-            {showAlert && (
-                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" onClose={() => setShowAlert(false)}>
-                    {itemName} was successfully added!
-                </Alert>
-            )}
-            <Box border="2px solid black">
-                <Box
+
+            <div className="text-center justify-center items-center">
+                <div className="pt-10">
+                    <Typography variant="h1" color="white">
+                        PantryCook
+                    </Typography>
+                </div>
+
+                <h2 className="text-center justify-center items-center text-3xl mt-10 mb-5 dark:text-white text-black">
+                    Search for Ingredients from the Pantry
+                </h2>
+
+                <PlaceholdersAndVanishInput
+                placeholders={placeholders}
+                onChange={handleChange}
+                onSubmit={onSubmit}/>
+
+                <h5 className="text-center justify-center items-center text-2xl mt-5 mb-5 dark:text-white text-black">
+                    Ingredient missing? Add it below!
+                </h5>
+            </div>
+
+            <div className="text-center justify-center items-center">
+                <Button variant="contained" onClick={handleOpen}>
+                    Add Product
+                </Button>
+                {showAlert && (
+                    <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" onClose={() => setShowAlert(false)}>
+                        {itemName} was successfully added!
+                    </Alert>
+                )}
+            </div>
+
+            <div className="justify-center items-center">
+                {/* <Box
                     width={800}
                     height={100}
                     bgcolor="black"
                     color="white"
                     display="flex"
                     alignItems="center"
-                    justifyContent="center">
+                    justifyContent="center"> */}
+                <div className="text-center justify-center items-center py-5">
                     <Typography variant="h2" color="white">
                         Inventory Items
                     </Typography>
-                </Box>
+                </div>
+                {/* </Box> */}
                 
-                <Stack width={800} height={300} spacing={2} overflow="auto" id="listBg">
+                <div className="mx-[20vw] justify-center items-center">
+                <Stack width="60vw" height="33vh" spacing={2} overflow="auto" id="listBg" sx={{marginBottom: 10, justifyContent: "center", alignItems: "center"}}>
                     {inv.map(({ name, quantity }) => (
                         <Box 
                             key={name}
@@ -119,7 +172,9 @@ export default function Home() {
                         </Box>
                     ))}
                 </Stack>
-            </Box>
-        </Box>
+                </div>
+            </div>
+        {/* </Box> */}
+        </div>
     );
 }
