@@ -3,6 +3,7 @@ import { Box, Button, Modal, Stack, TextField, Typography } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete";
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
+import { PiMouseScroll } from "react-icons/pi";
 import { Add } from "@mui/icons-material";
 import { useDbActions } from "./dbActions/route";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
@@ -14,13 +15,13 @@ const placeholders = [
     "A square sponge that lives in a pineapple under the sea?",
 ];
  
-const handleChange = () => {
+// const handleChange = () => {
 
-};
+// };
 
-const onSubmit = () => {
+// const onSubmit = () => {
     
-};
+// };
 
 export default function Home() {
     const {
@@ -38,7 +39,7 @@ export default function Home() {
     } = useDbActions();
 
     return (
-        <div className="justify-center items-center h-[100vh] w-[100vw] bg-black">
+        <div className="items-center w-[100vw] bg-black">
             <Modal
                 open={open}
                 onClose={handleClose}>
@@ -58,15 +59,6 @@ export default function Home() {
                     sx={{
                         transform: "translate(-50%, -50%)"
                     }}>
-                    {/* <Box
-                        width={800}
-                        height={100}
-                        bgcolor="black"
-                        color="white"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"> */}
-                    {/* </Box> */}
                     <Typography variant="h5">Add Item</Typography>
                     <Stack width="100%" direction="row" spacing={2}>
                         <TextField
@@ -91,7 +83,7 @@ export default function Home() {
 
             <div className="text-center justify-center items-center">
                 <div className="pt-10">
-                    <Typography variant="h1" color="white">
+                    <Typography variant="h2" color="white">
                         PantryCook
                     </Typography>
                 </div>
@@ -137,26 +129,28 @@ export default function Home() {
 
             <div className="justify-center items-center">
                 <div className="text-center justify-center items-center py-5">
-                    <Typography variant="h2" color="white">
+                    <Typography variant="h4" color="white">
                         Inventory Items
                     </Typography>
+                    {/* <Typography color="white">
+                        (Scrollable)
+                    </Typography> */}
                 </div>
                 
-                <div className="mx-[20vw] justify-center items-center mb-20">
-                    <Stack width="60vw" height="30vh" spacing={2} overflow="auto" id="listBg" sx={{marginBottom: 10, justifyContent: "center", alignItems: "center"}}>
+                <div className="flex mx-[10vw] pb-20 justify-center items-center">
+                    <Stack width="80vw" height="30vh" overflow="auto" id="listBg" borderRadius={10}>
                         {inv.map(({ name, quantity }) => (
                             <Box 
                                 key={name}
                                 width="100%"
-                                minHeight={150}
                                 display="flex"
                                 alignItems="center"
                                 justifyContent="space-between"
-                                padding={8}>
-                                <Typography variant="h3" justifyContent="center" alignItems="center" display="flex">
+                                padding={4.5}>
+                                <Typography variant="h5" justifyContent="center" alignItems="center" display="flex">
                                     {name.charAt(0).toUpperCase() + name.slice(1)}
                                 </Typography>
-                                <Typography variant="h3" justifyContent="center" alignItems="center" display="flex">
+                                <Typography variant="h5" justifyContent="center" alignItems="center" display="flex">
                                     {quantity}
                                 </Typography>
                                 <Stack direction="row" spacing={3}>
@@ -170,6 +164,7 @@ export default function Home() {
                             </Box>
                         ))}
                     </Stack>
+                    <PiMouseScroll size={50} color="white"/>
                 </div>
             </div>
         </div>
