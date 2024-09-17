@@ -8,18 +8,22 @@ export function useDbActions() {
     const [open, setOpen] = useState(false);
     const [itemName, setItemName] = useState('');
     const [showAlert, setShowAlert] = useState(false);
+    const [searchRes, setSearchRes] = useState(null);
 
     const searchInv = async (item) => {
         console.log("Searching inventory for item...");
         console.log(item)
         try {
-            // const itemSearch = CollectionReference.where('name', '>=', item).where('name', '<=', item+ '\uf8ff')
             const docRef = doc(firestore, 'inv', item);
-            // const docSnapshot = await getDoc(docRef);
-            if (docRef)
-                return(console.log(`${item} were found! Quantity: ${docRef.collection}`))
-            else
-                return(console.log(`Sorry ${item} is not in the pantry`))
+            const docSnapshot = await getDoc(docRef);
+            console.log(docSnapshot.data().quantity)
+
+            if (docSnapshot.exists()) {
+                const quantity = docSnapshot.data().quantity;
+                setSearchRes({ status: "found", quantity });
+            }else
+                setSearchRes({ status: "not-found" });
+            
         } catch (error) {
             console.error("Error finding the inventory item:", error);
         }
@@ -92,6 +96,7 @@ export function useDbActions() {
         open,
         itemName,
         showAlert,
+        searchRes,
         setItemName,
         setShowAlert,
         handleOpen,

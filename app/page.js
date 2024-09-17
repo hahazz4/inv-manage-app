@@ -8,20 +8,13 @@ import { Add } from "@mui/icons-material";
 import { useDbActions } from "./dbActions/route";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 const placeholders = [
     "Enter the ingredient here",
     "How many apples are there?",
     "A square sponge that lives in a pineapple under the sea?",
 ];
- 
-// const handleChange = () => {
-
-// };
-
-// const onSubmit = () => {
-    
-// };
 
 export default function Home() {
     const {
@@ -29,6 +22,7 @@ export default function Home() {
         open,
         itemName,
         showAlert,
+        searchRes,
         setItemName,
         setShowAlert,
         handleOpen,
@@ -37,6 +31,32 @@ export default function Home() {
         addItem,
         removeItem
     } = useDbActions();
+
+    const [msg, setMsg] = useState("");
+
+    const handleSearch = async () => {
+        await searchInv(itemName);
+        setItemName('');
+    };
+
+    useEffect(() => {
+        if (searchRes){
+            const timer = setTimeout(() => {
+                setMsg('');
+            }, 3000);
+            
+            return () => clearTimeout(timer);
+        }
+    }, [searchRes]);
+
+    useEffect(() => {
+        if (searchRes){
+            if (searchRes.status === "found")
+                setMsg(`Your search was found! Quantity: ${searchRes.quantity}`);
+            else if (searchRes.status === "not-found")
+                setMsg(`Sorry, it is not in the pantry.`);
+        }
+    }, [searchRes]);
 
     return (
         <div className="items-center w-[100vw] bg-black">
@@ -59,7 +79,7 @@ export default function Home() {
                     sx={{
                         transform: "translate(-50%, -50%)"
                     }}>
-                    <Typography variant="h5">Add Item</Typography>
+                    <Typography variant="h5">Add a Item</Typography>
                     <Stack width="100%" direction="row" spacing={2}>
                         <TextField
                             variant="outlined"
@@ -70,7 +90,7 @@ export default function Home() {
                                 color: "black",
                                 bgcolor: "white"
                             }}/>
-                        <Button variant="contained" onClick={() => {
+                        <Button id="buttons" variant="contained" onClick={() => {
                             addItem(itemName);
                             setItemName('');
                             handleClose();
@@ -96,17 +116,20 @@ export default function Home() {
                 placeholders={placeholders}
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}
-                onSubmit={() => {
-                    searchInv(itemName)
-                    setItemName('');
-                }}/>
+                onSubmit={handleSearch}/>
+
+                {msg && (
+                    <div className="p-5 justify-center text-center items-center text-white">
+                        {msg}
+                    </div>
+                )}
 
                 <div className="flex gap-5 text-center justify-center items-center">
                     <h5 className="text-center justify-center items-center text-xl mt-5 mb-5 dark:text-white text-black">
                         An ingredient missing?
                     </h5>
-                    <Button variant="contained" onClick={handleOpen}>
-                        Add Product
+                    <Button id="buttons" variant="contained" onClick={handleOpen}>
+                        Add Ingredient
                    </Button>
                    {showAlert && (
                     <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" onClose={() => setShowAlert(false)}>
@@ -121,7 +144,7 @@ export default function Home() {
                     Want to generate a recipe from the ingredients in your pantry?
                 </h5>
                 <Link href="/">
-                    <Button variant="contained" onClick={handleOpen}>
+                    <Button id="buttons" variant="contained" onClick={handleOpen}>
                         Generate Recipe
                     </Button>
                 </Link>
@@ -132,9 +155,6 @@ export default function Home() {
                     <Typography variant="h4" color="white">
                         Inventory Items
                     </Typography>
-                    {/* <Typography color="white">
-                        (Scrollable)
-                    </Typography> */}
                 </div>
                 
                 <div className="flex mx-[10vw] pb-20 justify-center items-center">
@@ -154,10 +174,10 @@ export default function Home() {
                                     {quantity}
                                 </Typography>
                                 <Stack direction="row" spacing={3}>
-                                    <Button variant="contained" startIcon={<Add />} onClick={() => addItem(name)}>
+                                    <Button id="buttons" variant="contained" startIcon={<Add />} onClick={() => addItem(name)}>
                                         Add
                                     </Button>
-                                    <Button variant="contained" startIcon={<DeleteIcon />} onClick={() => removeItem(name)}>
+                                    <Button id="buttons" variant="contained" startIcon={<DeleteIcon />} onClick={() => removeItem(name)}>
                                         Remove
                                     </Button>
                                 </Stack>
