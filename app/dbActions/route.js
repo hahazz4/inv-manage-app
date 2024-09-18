@@ -9,6 +9,8 @@ export function useDbActions() {
     const [itemName, setItemName] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [searchRes, setSearchRes] = useState(null);
+    const [loading, setLoading] = useState(true);
+
 
     const searchInv = async (item) => {
         console.log("Searching inventory for item...");
@@ -30,6 +32,7 @@ export function useDbActions() {
     };
 
     const updateInv = async () => {
+        setLoading(true);
         console.log("Fetching inventory items...");
         try {
             const snapshot = await getDocs(query(collection(firestore, 'inv')));
@@ -45,6 +48,8 @@ export function useDbActions() {
             console.log("Updated inventory list:", invList);
         } catch (error) {
             console.error("Error fetching inventory items:", error);
+        }finally{
+            setLoading(false);
         }
     };
 
@@ -97,6 +102,7 @@ export function useDbActions() {
         itemName,
         showAlert,
         searchRes,
+        loading,
         setItemName,
         setShowAlert,
         handleOpen,

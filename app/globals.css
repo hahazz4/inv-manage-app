@@ -8,6 +8,10 @@
   margin: 0;
 }
 
+html{
+  background-color: black;
+}
+
 #bg{
   background-color: black;
   height: 100vh;
@@ -23,4 +27,8 @@
 #buttons{
   background-color: #27272a;
   color:white;
+}
+
+.spinner-border {
+  border-top-color: #27272a;
 }

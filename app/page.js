@@ -9,6 +9,7 @@ import { useDbActions } from "./dbActions/route";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import InvLoad from "./loading_2";
 
 const placeholders = [
     "Enter the ingredient here",
@@ -23,6 +24,7 @@ export default function Home() {
         itemName,
         showAlert,
         searchRes,
+        loading,
         setItemName,
         setShowAlert,
         handleOpen,
@@ -59,7 +61,7 @@ export default function Home() {
     }, [searchRes]);
 
     return (
-        <div className="items-center w-[100vw] bg-black">
+        <div className= "w-[100vw] bg-black">
             <Modal
                 open={open}
                 onClose={handleClose}>
@@ -103,13 +105,13 @@ export default function Home() {
 
             <div className="text-center justify-center items-center">
                 <div className="pt-10">
-                    <Typography variant="h2" color="white">
+                    <Typography variant="h2" fontWeight="bold" color="white">
                         PantryCook
                     </Typography>
                 </div>
 
                 <h2 className="text-center justify-center items-center text-xl mt-10 mb-5 dark:text-white text-black">
-                    Search for Ingredients from the Pantry
+                    Search for Ingredients
                 </h2>
 
                 <PlaceholdersAndVanishInput
@@ -131,19 +133,19 @@ export default function Home() {
                     <Button id="buttons" variant="contained" onClick={handleOpen}>
                         Add Ingredient
                    </Button>
-                   {showAlert && (
-                    <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" onClose={() => setShowAlert(false)}>
-                        {itemName} was successfully added!
-                    </Alert>
+                    {showAlert && (
+                        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" onClose={() => setShowAlert(false)}>
+                            {itemName} was successfully added!
+                        </Alert>
                     )}
                 </div>
             </div>
 
             <div className="flex gap-5 text-center justify-center items-center">
                 <h5 className="text-center justify-center items-center text-xl mt-5 mb-5 dark:text-white text-black">
-                    Want to generate a recipe from the ingredients in your pantry?
+                    Want to generate a recipe from the ingredients available?
                 </h5>
-                <Link href="/">
+                <Link href="/generate-page/">
                     <Button id="buttons" variant="contained" onClick={handleOpen}>
                         Generate Recipe
                     </Button>
@@ -159,14 +161,17 @@ export default function Home() {
                 
                 <div className="flex mx-[10vw] pb-20 justify-center items-center">
                     <Stack width="80vw" height="30vh" overflow="auto" id="listBg" borderRadius={10}>
-                        {inv.map(({ name, quantity }) => (
-                            <Box 
-                                key={name}
-                                width="100%"
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="space-between"
-                                padding={4.5}>
+                        {loading ? (
+                            <InvLoad/>
+                        ) : (
+                        inv.map(({ name, quantity }) => (
+                            <Box
+                            key={name}
+                            width="100%"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="space-between"
+                            padding={4}>
                                 <Typography variant="h5" justifyContent="center" alignItems="center" display="flex">
                                     {name.charAt(0).toUpperCase() + name.slice(1)}
                                 </Typography>
@@ -182,7 +187,8 @@ export default function Home() {
                                     </Button>
                                 </Stack>
                             </Box>
-                        ))}
+                        ))
+                    )}
                     </Stack>
                     <PiMouseScroll size={50} color="white"/>
                 </div>
