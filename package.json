@@ -11,6 +11,8 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@eslint/config-array": "^0.19.1",
+    "@eslint/object-schema": "^2.1.5",
     "@mui/icons-material": "^5.16.6",
     "@mui/material": "^5.16.6",
     "clsx": "^2.1.1",
@@ -18,10 +20,13 @@
     "firebase": "^10.12.5",
     "framer-motion": "^11.5.4",
     "git-filter-repo": "^0.0.30",
-    "next": "14.2.5",
+    "glob": "^11.0.1",
+    "lru-cache": "^11.0.2",
+    "next": "^15.1.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.2.1",
+    "react-icons": "^5.4.0",
+    "rimraf": "^6.0.1",
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {

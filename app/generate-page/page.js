@@ -62,18 +62,7 @@ export default function ResultsPage(){
                                     <p className="text-xl">Cooking Time: 25 Minutes</p>
                                     <Link href="/"><p className="text-xl">Recipe Link Here</p></Link>
                                 </div>
-                                <p className="pt-5 mx-10 h-[25vh] text-md">writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
-                                    writing recipe here dog, please provide all of it to ensure you dont troll
+                                <p className="pt-5 mx-10 h-[25vh] text-md">test 123 recipe coming soon...
                                 </p>
                             </div>
                         ))}
